@@ -1,0 +1,62 @@
+﻿<h2>TinyMCE Image Upload with Asp.net Web Api</h2>
+
+<div class="edit-container">
+    <textarea id="tinymceContent" class="use-tinymce"></textarea>
+    <button class="btn btn-success save">Save</button>
+</div>
+
+<input name="image" type="file" id="upload" onchange="" style="display: none;">
+
+@section scripts
+{
+    <script src="~/Scripts/tinymce/tinymce.js"></script>
+    <script type="text/javascript">
+        tinymce.init({
+            selector: '#tinymceContent',
+       
+            plugins: [
+                'advlist autolink lists link image charmap print preview anchor',
+                'searchreplace visualblocks code fullscreen',
+                'insertdatetime media table contextmenu paste code'
+            ],
+            toolbar:
+                'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+            resize: true,
+            statusbar: true,
+            extended_valid_elements: "span[!class]",
+            visualblocks_default_state: true,
+            file_picker_callback: function(callback, value, meta) {
+                // Provide image and alt text for the image dialog
+                if (meta.filetype === 'image') {
+                    $('#upload').trigger('click');
+                    $('#upload')
+                        .on('change',
+                            function() {
+                                var file = this.files[0];
+                                if (file) {
+                                    var data = new FormData();
+                                    data.append('file', file);
+                                    $.ajax({
+                                            url: '/api/images/upload',
+                                            data: data,
+                                            processData: false,
+                                            contentType: false,
+                                            async: false,
+                                            type: 'POST'
+                                        })
+                                        .done(function(response) {
+                                            callback(response.location);
+                                        })
+                                        .fail(function(jqXhr, textStatus) {
+                                            console.log("Request failed: " + jqXhr.responseText + " --- " + textStatus);
+                                            alert("Request failed: " + jqXhr.responseText + " --- " + textStatus);
+                                        });
+                                }
+                            });
+                }
+            },
+            file_picker_types: 'image',
+            image_title: true
+        });
+    </script>
+}
