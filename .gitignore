@@ -1,33 +1,19 @@
-# Object files
-*.o
-*.ko
-*.obj
-*.elf
+# Build and Release Folders
+bin/
+bin-debug/
+bin-release/
+obj/
+obj-debug/
+obj-release/
+packages/
 
-# Precompiled Headers
-*.gch
-*.pch
+# Other files and folders
+.settings/
 
-# Libraries
-*.lib
-*.a
-*.la
-*.lo
+# Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
+# should NOT be excluded as they contain compiler settings and other important
+# information for Eclipse / Flash Builder.
+.vs/
+Uploads/
+PublishProfiles/
 
-# Shared objects (inc. Windows DLLs)
-*.dll
-*.so
-*.so.*
-*.dylib
-
-# Executables
-*.exe
-*.out
-*.app
-*.i*86
-*.x86_64
-*.hex
-
-# Debug files
-*.dSYM/
-*.su
